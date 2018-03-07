@@ -1,0 +1,3 @@
+ Character.toLowerCase('A') -> 'a'
+ "AAA".toLowerCase() -> 'aaa'
+ Arrays.equals(arr1, arr2)

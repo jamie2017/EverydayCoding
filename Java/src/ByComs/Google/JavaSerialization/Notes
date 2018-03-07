@@ -1,0 +1,4 @@
+Serialization interface needs to be implemented in order to make object serialized.
+Transient instance variable doesn’t serialized with Object state.
+If Super class implements Serializable then sub class are also Serializable automatically.
+If Super class is not serializable then when sub class is de serialized then super class’s default constructor will be invoked. Hence all variable will get default value and reference will be null.

@@ -1,0 +1,68 @@
+
+1. design data structure to represent a square which could be divided into 4 small squares recursively. Each square has value 1 or 0. Then, you are required to merge two given such square.
+2. design concurrent time-leased cache and provide API for user.
+
+
+
+感觉设计题考cache挺常见的，大家讨论一下？中国大叔主面，很nice，年轻三哥
+shadoow。设计一个cache system，要pseduo code，存储结构，API等，不要求LRU等替
+换策略，需要考虑concurrent的情况。要求考虑真实的使用场景，也就是这个cache
+system码工们用起来很方便。我给的答案就是传统的hashtable的api，加上处理miss、
+需要从硬盘或者数据库load的时候，做些处理确保不重复load。感觉让中国大叔失望了
+:(
+
+
+这种完全open的设计题最怕了，面试官很容易从你的解题过程中判断你的老练程度，
+problem solving的思维方式，系统设计的基本原理，pro con的tradeoff，用code快速
+描述的能力，等等。个人感觉挺难装出来的。
+
+
+
+======================
+别的几轮里的算法题：
+1. 字典里有大量words，给一个query，如果在字典里能找到one edit distance则返回
+那个word。followup是如果是k edit distance呢。不能对字典里的所有word做简单的
+预处理（产生所有可能的k edit以后的词加入字典）。
+
+2. 设计带历史记录的哈希表。对于同一个key下出现过的多个value都记录，每个value
+都加个timestamp。查找时get（key， ts），输出value，其时间戳是在ts或者ts之前
+最近的。
+
+之前两轮店面都是树的题目，基本都挺简单的，一个稍微麻烦点的是任意叉树的序列化
+和逆序列化。都要在codepad里跑过测试。
+
+
+
+
+电面：
+1. 两个binary tree，每个node存的值有两种可能，1或者0，把两个tree对应node做or
+操作。
+极为简单，扯了一下immutable data structure然后聊了一会之前做的东西就过了。
+
+onsite 1：
+1. 纯聊project和讨论他们现有的data ingestion架构，刚好他们最近想用Kafka所以
+就这个话题聊了一个小时，最后没时间做题就结束了
+2. 小三哥，但是也不黑。
+given a list of intervals，query if another interval is totally covered by
+the list of intervals。
+totally covered是指整个区间都被某些已有的区间 cover了。
+比如如果有 list of intervals = 【（1， 4），（2，8）】
+given interval【3，6】就被完全cover了。
+然后扩展到design a system来做这个事情，可以query，也可以insert interval，假
+设query操作的频率远远大于insert操作，并且interval的数量非常非常多。
+
+onsite 2：
+1. 有意思的题目1，设计Bi-directional LRU cache data structure，既可以lookup
+key to get value，也可以lookup value to get key，还支持set(key, value)操作，
+后面又加了条件，concurrent的情况下，会有什么问题，如何改进，假如set这个操作
+的频率远远小于get这个操作的频率，需要写代码实现。
+2. robot from topleft to bottomright LC原题，无障碍和有障碍
+3. given a list of sets，find all pair of sets having any intersection
+4. 有意思的题目2，设计caltrain system，要实现caltrain上车下车刷卡扣钱整个功
+能，assume每个station都跟一个central server相连，要处理如果有network
+partition怎么办，eventually车费还是要charge到账户上，但是不能影响partition的
+station正常运作。要处理某些人下车没刷卡怎么办，followup可以非常多
+5. 有意思的题目3，仍然是设计一个cocurrent环境下的time leased cache，但是有些
+区别，假如delete操作是一个daemon thread来做不用太多考虑，但是get(key)操作的
+逻辑是如果key不在cache里面，需要一个非常expensive的操作把对应value load进来
+，如何让这个load的操作对同一个key尽量少发生，需要写代码实现。

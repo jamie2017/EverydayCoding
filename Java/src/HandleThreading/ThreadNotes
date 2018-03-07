@@ -1,0 +1,137 @@
+Thread Definition:
+1.Runnables are objects that encapsulate code sequences.
+2.Each thread executes a runnable object.
+3.Threads can initiate an asynchronous task.
+4.Asychronous indicates that it can run concurrently.
+
+The JVM gives each thread its own private JVM stack.
+This prevents threads from interfering with each other.
+The stack holds local variables.
+It also tracks next instructions and calls methods.
+
+Java supports threads through java.lang.Thread class
+and the java.lang.Runnable interface.
+
+Threads are either daemon or non-daemon.
+
+Daemon threads don't stop the JVM from ending.
+Threads by default are non-daemon threads.
+
+Java garbage coolection runs on a daemon thread.
+A daemon thread is created calling setDaemon(true)
+The main thread is a non-daemon thread.
+The program ends when non-daemon threads have died.
+
+               start()             run()              sleep()            elapsed time
+New Threads() __________> Runnable__________>Running __________> Waiting__________>Dead
+
+How to create a Thread ??
+Method 1) Declare a new class as a subclass of the thread class
+          Must override the run() method
+          An instance of this subclass can be allocated and started
+Method 2) Implement the Runnable interface
+          Create a new class that implements Runnable
+          Create a Runnable object and use a Thread constructor
+          Still must override the run() method
+
+
+constructor:
+Thread()
+Thread(Runnable obj)
+Thread(Runnable obj, string name)
+Thread(string name)
+
+
+Thread State
+
+Each thread object has a state
+State includes name, alive/dead, execution state, and priority, and a daemon/non-daemon status
+
+Execution State of a Thread
+
+. New - created but not started
+. Runnalbe - a thread executing in the JVM
+. Blocked - blocked waiting for a monitor to be unlocked
+. Waiting - waiting to be notified to continue
+. Timed_waiting - waiting with a time limit
+. Terminated - a thread that has completed execution
+
+
+Static Methods
+activeCount() - returns extimated number of threads
+currentThread() - returns reference to current thread
+enumerate(Thread[] tarr) - list of active threads
+sleep(long millis) - sleep or stop execution
+.join() - returns estimated number of threads
+interrupt() - return reference to current thread
+
+
+Multithreaded application problems
+thread-unsafe
+increase debug complexity
+Reliance on synchronization can impact scalability
+
+A race condition occurs when threads depend on relative timing by the scheduler.
+A data race occurs when two or more threads access the same memory location.
+
+Synchronization can be used to solve race conditons, data races, and cached variable problems
+Prevents two threads from accessing a critical section
+Ensures threads can safely update shard variables
+Can be applied to methods or code blocks
+
+Synchronization code is know as critical sections.
+JVM supports it via monitors.
+Every Java object is associated with a monitor.
+Before a thread enters a critical section, it must get a lock on the monitor.
+If the monitor is already locked, the thread is blocked.
+Shared variable are copied into the thread's working memory(local memory/cache memory).
+This ensures access to most recent values.
+When done, it writes values back to main memory.
+
+Synchronized methods
+Add keyword "synchronized" to the method header
+Prevents two threads from accessing same critical code
+
+Synchronized block
+A Synchronized block is identified by a special header
+The header identifies the object for the lock.
+
+Synchronized(object)
+{
+/*   statements */
+}
+
+
+Wait and Notify API
+void wait();
+void wait(long millis);
+void wait(long millis, int nano);
+void notify();
+void notifyAll();
+The API uses the objects' condition queue
+that stores threads that are in a wait state.
+
+The waiting threads are known as the wait set.
+The current thread must own the object's monitor.
+Then it can invoke these methods.
+Otherwise, an IllegalMonitorStateException is thrown.
+
+Deadlock
+             lock                waiting for resource2
+    Thread1 ________> Resource2 <_____________________ Thread2
+    |                                                        |
+    |  waiting for resouce1                        lock      |
+    |_______________________> Resource1 <____________________|
+
+
+    Locking Framework
+    ReentrantLock lock1 = new ReentrantLock();
+    lock1.lock();
+    try{
+    // perform critical section that required lock
+    }
+    catch (Exception e){}
+    finally {
+      lock1.unlock();
+    }// Always release the lock
+

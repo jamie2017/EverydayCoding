@@ -1,0 +1,25 @@
+protected
+
+
+Array Of Objects:
+File[] files = dir.listFiles();
+for(File file: files) {
+    processFile(file);
+}
+String[] letters = new String[] {"a","b","c"};
+letters.remove("b");
+
+Array - > List
+List<String> letterList = Arrays.asList(letters);
+
+
+
+List - > array
+
+Generics:
+    List<String> letters = new ArrayList<>();
+    String[] letterArray = letters.toArray(new String[0]);
+
+No generics:
+    List letters = new ArrayList();
+    String[] letterArray = (String[])letters.toArray(new String[0]);
